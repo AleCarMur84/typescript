@@ -1,3 +1,5 @@
+import { obtenerRecurso } from "./services/api-client";
+
 type EstadoTarea = "pendiente" | "en_progreso" | "completada";
 
 interface Tarea {
@@ -25,8 +27,8 @@ function obtenerElemento<T>(array: T[], indice: number): T | null {
   return array[indice];
 }
 
-const numeros = [10, 20, 30];
-const textos = ["hola", "mundo"];
+const numeros: number[] = [10, 20, 30];
+const textos: string[] = ["hola", "mundo"];
 
 console.log(obtenerElemento(numeros, 1));
 console.log(obtenerElemento(textos, 0));
@@ -35,7 +37,7 @@ type Resultado =
   | { estado: "exito"; data: string }
   | { estado: "error"; mensaje: string };
 
-  function procesarResultado(resultado: Resultado) {
+function procesarResultado(resultado: Resultado) {
   if (resultado.estado === "exito") {
     console.log("OK:", resultado.data);
   } else {
@@ -45,3 +47,15 @@ type Resultado =
 
 procesarResultado({ estado: "exito", data: "Todo correcto" });
 procesarResultado({ estado: "error", mensaje: "Algo falló" });
+
+type Usuario = {
+  id: number;
+  nombre: string;
+};
+
+async function main() {
+  const respuesta = await obtenerRecurso<Usuario>("usuarios/1");
+  console.log(respuesta);
+}
+
+main();
